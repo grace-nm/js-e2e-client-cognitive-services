@@ -16,15 +16,15 @@ console.log(`endpoint = ${endpoint}`)
 
 // Cognitive service features
 const visualFeatures = [
-    "ImageType",
-    "Faces",
-    "Adult",
-    "Categories",
-    "Color",
+    // "ImageType",
+    // "Faces",
+    // "Adult",
+    // "Categories",
+    // "Color",
     "Tags",
-    "Description",
-    "Objects",
-    "Brands"
+    // "Description",
+    // "Objects",
+    // "Brands"
 ];
 
 export const isConfigured = () => {
@@ -63,7 +63,7 @@ export const computerVision = async (url) => {
 
     // get image URL - entered in form or random from Default Images
     const urlToAnalyze = url || RandomImageUrl();
-    
+
     // analyze image
     const analysis = await computerVisionClient.analyzeImage(urlToAnalyze, { visualFeatures });
 
@@ -73,11 +73,11 @@ export const computerVision = async (url) => {
     }
 
     // all information about image
-    return { "URL": urlToAnalyze, ...analysis};
+    return { "URL": urlToAnalyze, ...analysis };
 }
 // analyze text in image
 const readTextFromURL = async (client, url) => {
-    
+
     let result = await client.read(url);
     let operationID = result.operationLocation.split('/').slice(-1)[0];
 
@@ -85,14 +85,14 @@ const readTextFromURL = async (client, url) => {
     // result.status is initially undefined, since it's the result of read
     const start = Date.now();
     console.log(`${start} -${result?.status} `);
-    
+
     while (result.status !== "succeeded") {
         await wait(500);
         console.log(`${Date.now() - start} -${result?.status} `);
         result = await client.getReadResult(operationID);
     }
-    
+
     // Return the first page of result. 
     // Replace[0] with the desired page if this is a multi-page file such as .pdf or.tiff.
-    return result.analyzeResult; 
+    return result.analyzeResult;
 }
